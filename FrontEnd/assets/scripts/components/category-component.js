@@ -53,12 +53,12 @@ export const createCategoriesContainer= async () => {
         btnFilter.textContent = category.name;
         btnFilter.classList.add("btnFilter");
         categoriesContainer.appendChild(btnFilter);
-    });
-    btnFilter.addEventListener("click", () => {
-        const picsFilter = pics.findAllCategories(function (categories) {
-            return categories.category
-        })
+        btnFilter.addEventListener("click", () => {
+        
         });
+        
+    });
+    
     
     // Ajout btn "Tous" //
     const btnAll = document.createElement("li");
@@ -66,3 +66,5 @@ export const createCategoriesContainer= async () => {
     btnAll.classList.add("btnFilter");
     categoriesContainer.insertBefore(btnAll, categoriesContainer.firstChild); 
 };
+
+
