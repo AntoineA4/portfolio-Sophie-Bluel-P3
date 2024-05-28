@@ -253,3 +253,13 @@ margin: auto;
  .footerLogin {
 	margin-top: 25%;
  }
+
+ /****** Error message login *******/
+
+ .error-message {
+	display: flex;
+	justify-content: center;
+	color: red;
+	font-size: 15px;
+	margin-bottom: 3%;
+ }
