@@ -1,42 +1,6 @@
-// fonction pour ajouter tous les travaux//
-
-import { findAllWorks } from "../services/category-service.js";
-
-export async function createWorksContainer(){
-    try {
-        const works = await findAllWorks();
-        console.log(works);
-        const worksSection = document.getElementById("portfolio");
-        const gallery = worksSection.querySelector(".gallery");
-        worksSection.appendChild(gallery);
-
-        gallery.innerHTML = '';
-
-        works.forEach(({title, imageUrl}) => {
-        const figureElement = document.createElement("figure");
-        const imageElement = document.createElement("img");
-        imageElement.src = imageUrl;
-        imageElement.alt = title;
-        const titleElement = document.createElement("h3");
-        titleElement.textContent = title;
-    
-
-        figureElement.appendChild(imageElement);
-        figureElement.appendChild(titleElement);
-        gallery.appendChild(figureElement);
-        })
-    }
-    catch (error) {
-        console.error("Error fetching or displaying works:", error);
-    
-    };
-};
-
+import { findAllCategories } from "../services/category-service.js";
 
 // fonction pour ajouter les filtres//
-
-
-import { findAllCategories } from "../services/category-service.js";
 
 export const createCategoriesContainer= async () => {
     const categoriesContainer = document.createElement("ul");
@@ -65,6 +29,15 @@ export const createCategoriesContainer= async () => {
     btnAll.textContent = "Tous";
     btnAll.classList.add("btnFilter");
     categoriesContainer.insertBefore(btnAll, categoriesContainer.firstChild); 
+    bindCategoryButton();
 };
 
+ const bindCategoryButton = () => {
+    const buttons = document.querySelectorAll(".btnFilter");
+    if (buttons) {
+        for (const button of buttons) {
+            console.log(button.innerText)
+        };
+    };
 
+};
