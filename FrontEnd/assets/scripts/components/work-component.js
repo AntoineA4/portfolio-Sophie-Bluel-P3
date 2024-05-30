@@ -1,6 +1,5 @@
 import { findAllWorks } from "../services/work-service.js";
 
-
 export async function createWorksContainer(){
     try {
         const works = await findAllWorks();
