@@ -263,3 +263,45 @@ margin: auto;
 	font-size: 15px;
 	margin-bottom: 3%;
  }
+
+ /****** Modal ******/
+
+ .custom-modal-backdrop {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.3);
+ }
+
+ .modal-wrapper {
+	display: flex;
+	justify-content: center;
+	background-color: white;
+	width: 500px;
+	height: 600px;
+	padding: 5%;
+ }
+
+ .modal-wrapper h2 {
+	color: black;
+	font-family: 'Syne';
+ }
+
+
+ .figure img {
+	max-width: 10%; 
+ }
+
+ .gallery-modal {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-content: flex-start;
+
+ }
