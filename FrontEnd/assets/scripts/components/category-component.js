@@ -14,23 +14,11 @@ export const createCategoriesContainer= async () => {
     console.log(categories);
     worksSection.appendChild(categoriesContainer);
     //ajout du li//
-    const works =  await findAllWorks();
     categories.forEach(category => {
         const btnFilter = document.createElement("li");
         btnFilter.textContent = category.name;
         btnFilter.classList.add("btnFilter");
         categoriesContainer.appendChild(btnFilter);
-        const gallery = worksSection.querySelector(".gallery");
-        btnFilter.addEventListener("click", () => {
-            gallery.textContent = "";
-            console.log (categories)
-            const filterImg = works.filter( work => {
-                return work.category && work.category.name === category.name;
-            }   
-            );
-            createWorksContainer(filterImg);
-        });
-        
     });
     
     // Ajout btn "Tous" //
@@ -45,8 +33,15 @@ export const createCategoriesContainer= async () => {
     const buttons = document.querySelectorAll(".btnFilter");
     if (buttons) {
         for (const button of buttons) {
-            console.log(button.innerText)
+            button.addEventListener("click", async () => {
+                let works = await findAllWorks (); 
+                if (button.textContent !== "Tous") {
+                    works = works.filter (work => work.category.name === button.textContent);
+                }
+                createWorksContainer (works); 
+            })
         };
     };
 
 };
+

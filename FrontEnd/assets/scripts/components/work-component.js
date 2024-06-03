@@ -1,9 +1,7 @@
 import { findAllWorks } from "../services/work-service.js";
 
-export async function createWorksContainer(){
+export async function createWorksContainer(works){
     try {
-        const works = await findAllWorks();
-        console.log(works);
         const worksSection = document.getElementById("portfolio");
         const gallery = worksSection.querySelector(".gallery");
         worksSection.appendChild(gallery);
@@ -29,3 +27,19 @@ export async function createWorksContainer(){
     
     };
 };
+
+export const bindCreateWorkModal = () => {
+    const modalButton = document.getElementById ("openModal");
+    if (modalButton) {
+        modalButton.addEventListener ("click", () => {
+            const modal = document.createElement ("div")
+            modal.style.position = "fixed"
+            modal.style.top = "0" 
+            modal.style.left = "0" 
+            modal.style.background = "red"
+            modal.style.height = "100%"
+            modal.style.width = "100%"
+            document.body.appendChild (modal)
+        })
+    }
+}
