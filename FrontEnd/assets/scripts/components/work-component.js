@@ -38,6 +38,10 @@ export const bindCreateWorkModal = () => {
             const modal = document.createElement ("div");
             modal.classList.add("modal-wrapper");
             backdrop.appendChild(modal);
+            // logo close btn
+            const closeModalBtn = document.createElement ("i");
+            closeModalBtn.classList.add ("fa-solid", "fa-xmark");
+            modal.appendChild(closeModalBtn);
             // create title 
             const modalTitle = document.createElement("h2");
             modalTitle.textContent = "Galerie photo";
@@ -59,6 +63,14 @@ export const bindCreateWorkModal = () => {
                 figure.appendChild(img);
                 figure.appendChild(trashPic);
             });
+            // hr line
+            const bottomLine = document.createElement("hr");
+            modal.appendChild(bottomLine);
+            // button Ajouter Photo
+            const btnAjoutPhoto = document.createElement("button");
+            btnAjoutPhoto.innerText = "Ajouter une photo";
+            btnAjoutPhoto.classList.add ("btnAddPic");
+            modal.appendChild(btnAjoutPhoto);
         });
     };
 };
