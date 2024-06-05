@@ -26,6 +26,25 @@ export async function createWorksContainer(works){
     };
 };
 
+export function editorModeDisplay () {
+    // change loginto logout
+    const loginBtn = document.querySelector(".btn-login")
+    loginBtn.innerText = "Logout";
+    //remove filter
+    document.querySelector(".btnFilter").remove();
+    //add black hearder
+    const header = document.querySelector("header");
+    header.style.marginTop = "100px";
+    const blackHeader = document.createElement("div");
+    blackHeader.classList.add("black-header");
+    header.insertBefore (blackHeader, header.firstChild);
+    const editBtn = document.createElement("div");
+    editBtn.classList.add("edit-btn");
+    editBtn.innerHTML = `<i class="fa-regular fa-pen-to-square"></i><p>Mode édition</p>`;
+    blackHeader.appendChild(editBtn);
+    // edit btn to open modal
+};
+
 export const bindCreateWorkModal = () => {
     const modalButton = document.getElementById ("openModal");
     if (modalButton) {

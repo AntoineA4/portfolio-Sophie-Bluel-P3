@@ -1,4 +1,5 @@
 import { login } from "../services/auth-service.js";
+import {editorModeDisplay} from "./components/work-component.js";
 export const bindLoginForm = async () => {
     const loginFormular = document.querySelector(".loginForm");
     if (loginFormular) {
@@ -10,10 +11,13 @@ export const bindLoginForm = async () => {
                     password: event.target.querySelector("[name=password]").value,
                 };
                 const chargeUtile = JSON.stringify(loginInformation);
+                console.log("Login information:", loginInformation);
                 const response = await login(chargeUtile); 
+                console.log("API response:", response);
                 if (response.token) {
                     localStorage.setItem("token", response.token);
                     window.location.href = "index.html";
+                    editorModeDisplay();
                 } else {
                     displayErrorMessage (response.error.message || "*email ou mot de passe incorrect");
                 }  
@@ -34,3 +38,4 @@ const displayErrorMessage = (message) => {
     
     errorMessageElement.textContent = message;
 };
+
