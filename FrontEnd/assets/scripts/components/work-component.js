@@ -40,7 +40,7 @@ export const bindCreateWorkModal = () => {
             backdrop.appendChild(modal);
             // logo close btn
             const closeModalBtn = document.createElement ("i");
-            closeModalBtn.classList.add ("fa-solid", "fa-xmark");
+            closeModalBtn.classList.add ("fa-solid", "fa-xmark", "cursor-pointer");
             modal.appendChild(closeModalBtn);
             // create title 
             const modalTitle = document.createElement("h2");
@@ -71,6 +71,11 @@ export const bindCreateWorkModal = () => {
             btnAjoutPhoto.innerText = "Ajouter une photo";
             btnAjoutPhoto.classList.add ("btnAddPic");
             modal.appendChild(btnAjoutPhoto);
+            // close modal
+            closeModalBtn.addEventListener("click", () => {
+                backdrop.remove();
+            });
         });
     };
 };
+
