@@ -3,6 +3,7 @@ import { findAllWorks } from "../services/work-service.js";
 export async function createWorksContainer(works){
     try {
         const worksSection = document.getElementById("portfolio");
+        if (!worksSection) return;
         const gallery = worksSection.querySelector(".gallery");
         worksSection.appendChild(gallery);
 
@@ -26,7 +27,7 @@ export async function createWorksContainer(works){
     };
 };
 
-export function editorModeDisplay () {
+export async function editorModeDisplay () {
     // change loginto logout
     const loginBtn = document.querySelector(".btn-login")
     loginBtn.innerText = "Logout";

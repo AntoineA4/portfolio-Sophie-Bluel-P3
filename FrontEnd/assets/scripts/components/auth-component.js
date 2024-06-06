@@ -1,5 +1,5 @@
 import { login } from "../services/auth-service.js";
-import {editorModeDisplay} from "./components/work-component.js";
+import {editorModeDisplay} from "../components/work-component.js";
 export const bindLoginForm = async () => {
     const loginFormular = document.querySelector(".loginForm");
     if (loginFormular) {
@@ -17,7 +17,7 @@ export const bindLoginForm = async () => {
                 if (response.token) {
                     localStorage.setItem("token", response.token);
                     window.location.href = "index.html";
-                    editorModeDisplay();
+                    await editorModeDisplay();
                 } else {
                     displayErrorMessage (response.error.message || "*email ou mot de passe incorrect");
                 }  

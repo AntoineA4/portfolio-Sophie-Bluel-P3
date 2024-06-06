@@ -8,7 +8,7 @@ export const createCategoriesContainer= async () => {
     const categoriesContainer = document.createElement("ul");
     categoriesContainer.classList.add("listeFilter");
     const worksSection = document.getElementById("portfolio");
-    
+    if (!worksSection) return;
     console.log(categoriesContainer, worksSection);
     const categories = await findAllCategories();
     console.log(categories);
