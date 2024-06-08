@@ -64,6 +64,7 @@ export const bindCreateWorkModal = () => {
             modal.appendChild(closeModalBtn);
             // create title 
             const modalTitle = document.createElement("h2");
+            modalTitle.classList.add ("title-modal");
             modalTitle.textContent = "Galerie photo";
             modal.appendChild(modalTitle);
             // works
@@ -89,13 +90,45 @@ export const bindCreateWorkModal = () => {
             // button Ajouter Photo
             const btnAjoutPhoto = document.createElement("button");
             btnAjoutPhoto.innerText = "Ajouter une photo";
-            btnAjoutPhoto.classList.add ("btnAddPic");
+            btnAjoutPhoto.classList.add ("modal-btn");
             modal.appendChild(btnAjoutPhoto);
             // close modal
             closeModalBtn.addEventListener("click", () => {
                 backdrop.remove();
             });
+            //open the second modal (add works)
+            btnAjoutPhoto.addEventListener("click", () => {
+                modal.style.display ="none"; 
+                const modalAddWorks = document.createElement("div");
+                modalAddWorks.classList.add ("modal2");
+                backdrop.appendChild(modalAddWorks);
+                modalAddWorks.innerHTML = `
+                                <div class="top-modal">
+                                <i class="fa-solid fa-arrow-left" id="return"></i>
+                                <i class="fa-solid fa-xmark" id="close-modal2"></i>
+                                </div>
+                                <form action="/upload" method="post" id="form-add">
+                                <h2 class="title-modal">Ajout photo</h2>
+                                <label for="input-add" class="label-add">
+                                <img src="" alt"image upload" class="img-upload">
+                                <span class="icon-image"><i class="fa-regular fa-image"></i></span>
+                                <label for "input-add" class="label-input-add">+ Ajouter photo</label>
+                                <input type="file" name="add-image" id="input-add" />
+                                <span class="info-add">jpeg, png : 4mo max</span>
+                                </label>
+                                <div class="div-input">
+                                <label for"input-title">Titre</label>
+                                <input type="text" id="input-title">
+                                <label for="select-category">Catégories</label>
+                                <select name="select-category" id="select-category">
+                                <option value="" disable selected>Sélectionner la catégorie </option>
+                                </select>
+                                <hr class="separation-bar">
+                                <input type="submit" value="Valider" id="input-submit" class="modal-btn">
+                                </div>
+                                </form>`;
+                modla2.style.display ="flex";
+            });
         });
     };
 };
-

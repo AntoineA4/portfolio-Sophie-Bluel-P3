@@ -278,7 +278,7 @@ margin: auto;
 	background: rgba(0, 0, 0, 0.3);
  }
 
- .modal-wrapper {
+ .modal-wrapper, .modal2 {
 	position: absolute;
 	display: flex;
 	flex-direction: column;
@@ -291,7 +291,7 @@ margin: auto;
 	padding-bottom: 2%;
  }
 
- .modal-wrapper h2 {
+ .title-modal{
 	color: black;
 	font-family: 'Syne';
 	margin-bottom: 7%;
@@ -337,7 +337,7 @@ margin: auto;
 	text-align: end;
 }
 
-.btnAddPic {
+.modal-btn {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 15px;
@@ -350,15 +350,90 @@ margin: auto;
 	border: 12px solid #1D6154;
 	border-radius: 30px ;
 }
-
-.modal-wrapper .fa-xmark {
+.fa-xmark {
 	position: absolute;
 	right: 25px;
 	top:25px;
 	font-size: 20px;
-	
 }
 
 .cursor-pointer {
     cursor: pointer;
 }
+/***** Modal 2 add works ******/
+
+.fa-arrow-left {
+	position: absolute;
+	left: 25px;
+	top:25px;
+	font-size: 20px;
+
+}
+#form-add {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+.label-add {
+	width: 100%;
+	height: 170px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap:5px;
+	background-color: #E8F1F6;
+	border-radius: 4px;
+	overflow: hidden;
+}
+.label-add .img-upload {
+	display: none;
+	object-fit: cover;
+	height: 100%;
+}
+
+.label-add .icon-image {
+	font-size: 80px;
+	color: #b9c5cc;
+}
+#form-add .label-input-add {
+	padding: 10px 35px;
+	background-color: #b9c5cc;
+	border-radius: 30px;
+	color: #306685;
+}
+
+#form-add #input-add {
+	display: none;
+}
+#form-add .info-add {
+	font-family: "Work Sans";
+	font-size:10px;
+}
+#form-add .div-input label {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	margin: 35px 0 10px 0;
+	font-size: 15px;
+}
+
+.div-input #input-title, .div-input #select-category {
+	height: 50px;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	text-align: center;
+	width:100%;
+	font-family: 'Syne';
+}
+.separration-bar {
+	width: 80%;
+	border: solid 1px #b3b3b3;
+	margin-top: 10%;
+	margin-bottom: 5%;
+}
+#form-add .label-input-add:hover, .fa-arrow-left:hover, .fa-xmark:hover, #select-category:hover, #input-submit:hover {
+	cursor: pointer;
+} 
+
+
