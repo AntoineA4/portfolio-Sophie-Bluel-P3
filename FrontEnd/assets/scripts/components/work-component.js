@@ -76,6 +76,7 @@ export const bindCreateWorkModal = () => {
                 const worksId = work.id;
                 const figure = document.createElement("figure");
                 figure.classList.add ("figure");
+                figure.classList.add (`figure-${worksId}`);
                 const img = document.createElement("img");
                 const trashPic = document.createElement("i");
                 trashPic.classList.add("fa-solid", "fa-trash-can");
@@ -83,6 +84,13 @@ export const bindCreateWorkModal = () => {
                 galleryWorks.appendChild(figure);
                 figure.appendChild(img);
                 figure.appendChild(trashPic);
+                //delete works
+                trashPic.addEventListener("click", async(event) => {
+                    console.log("Suppression de l'élément déclenchée");
+                    event.stopPropagation();
+                    event.preventDefault();
+                    deleteWorks(event, worksId);
+                })
             });
             // hr line
             const bottomLine = document.createElement("hr");
@@ -95,11 +103,13 @@ export const bindCreateWorkModal = () => {
             // close modal
             closeModalBtn.addEventListener("click", () => {
                 backdrop.remove();
+                console.log("La modal est en train de se fermer.1");
             });
             // close modal when clicking outside of it
             backdrop.addEventListener("click", (event) => {
                 if (event.target === backdrop) {
                     backdrop.remove();
+                    console.log("La modal est en train de se fermer.2");
                 }
             });
             //open the second modal (add works)
@@ -150,3 +160,33 @@ export const bindCreateWorkModal = () => {
         });
     };
 };
+async function deleteWorks (event,worksId) {
+    try {
+        console.log("Suppression de l'élément déclenchée");
+        const token = localStorage.getItem("token");
+        const fetchDelete = await fetch(`http://localhost:5678/api/works/${worksId}`,
+            {
+                method: "DELETE",
+                headers: {
+                    accept: "*/*",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        if (fetchDelete.ok) {
+            const figures = document.querySelectorAll(`.figure-${worksId}`)
+            figures.forEach((figure) => {
+                console.log(figure)
+                figure.remove()
+                }
+            );
+            event.preventDefault();
+            console.log("work supprimé");
+        } else {
+            console.error("une erreur s'est produite");
+        }
+    } catch (error) {
+        console.error('Erreur lors de la suppression de l\'image :', error);
+    }
+    
+}
