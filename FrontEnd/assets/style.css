@@ -415,24 +415,43 @@ margin: auto;
 	display: flex;
 	flex-direction: column;
 	text-align: left;
-	margin: 35px 0 10px 0;
+	margin: 25px 0 10px 0;
 	font-size: 15px;
 }
 
 .div-input #input-title, .div-input #select-category {
 	height: 50px;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	border: none;
 	text-align: center;
 	width:100%;
 	font-family: 'Syne';
 }
-.separration-bar {
-	width: 80%;
-	border: solid 1px #b3b3b3;
-	margin-top: 10%;
+.div-input .submit-btn {
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 15px;
+	color: white;
+	background-color: #A7A7A7;
+	margin-top: 5%;
+	margin-bottom: 0;
+	width: 190px;
+	text-align: center;
+	border: 12px solid #A7A7A7;
+	border-radius: 30px ;
 	margin-bottom: 5%;
 }
-#form-add .label-input-add:hover, .fa-arrow-left:hover, .fa-xmark:hover, #select-category:hover, #input-submit:hover {
+
+.modal2 .div-input .separration-bar {
+	width: 80%;
+	border: solid 1px #b3b3b3;
+	margin-top: 10% !important;
+	margin-bottom: 5% !important;
+}
+#select-category {
+	margin-bottom: 7%;
+}
+#form-add .label-input-add:hover, .fa-arrow-left:hover, .fa-xmark:hover, #select-category:hover, #input-submit:hover, .fa-trash-can:hover, .modal-btn:hover {
 	cursor: pointer;
 } 
 

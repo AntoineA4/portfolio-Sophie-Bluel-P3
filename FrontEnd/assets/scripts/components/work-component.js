@@ -54,7 +54,7 @@ export const bindCreateWorkModal = () => {
             const backdrop = document.createElement("div");
             backdrop.classList.add("custom-modal-backdrop");
             document.body.appendChild(backdrop);
-            // create modal box
+            // create first modal box
             const modal = document.createElement ("div");
             modal.classList.add("modal-wrapper");
             backdrop.appendChild(modal);
@@ -96,6 +96,12 @@ export const bindCreateWorkModal = () => {
             closeModalBtn.addEventListener("click", () => {
                 backdrop.remove();
             });
+            // close modal when clicking outside of it
+            backdrop.addEventListener("click", (event) => {
+                if (event.target === backdrop) {
+                    backdrop.remove();
+                }
+            });
             //open the second modal (add works)
             btnAjoutPhoto.addEventListener("click", () => {
                 modal.style.display ="none"; 
@@ -122,12 +128,24 @@ export const bindCreateWorkModal = () => {
                                 <label for="select-category">Catégories</label>
                                 <select name="select-category" id="select-category">
                                 <option value="" disable selected>Sélectionner la catégorie </option>
+                                <option value="category1">Objets</option>
+                                <option value="category2">Appartements</option>
+                                <option value="category3">Hotels & restaurants</option>
                                 </select>
                                 <hr class="separation-bar">
-                                <input type="submit" value="Valider" id="input-submit" class="modal-btn">
+                                <input type="submit" value="Valider" id="input-submit" class="submit-btn">
                                 </div>
                                 </form>`;
-                modla2.style.display ="flex";
+                modalAddWorks.style.display ="flex";
+                const closeModalAddBtn = document.getElementById("close-modal2");
+                closeModalAddBtn.addEventListener("click", () => {
+                    backdrop.remove();
+                });
+                const returnPreviousModal = document.getElementById("return");
+                returnPreviousModal.addEventListener("click", () => {
+                    modalAddWorks.remove();
+                    modal.style.display = "flex";
+                }); 
             });
         });
     };
