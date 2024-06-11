@@ -138,28 +138,37 @@ export const bindCreateWorkModal = () => {
                                 <label for="select-category">Catégories</label>
                                 <select name="select-category" id="select-category">
                                 <option value="" disable selected>Sélectionner la catégorie </option>
-                                <option value="category1">Objets</option>
-                                <option value="category2">Appartements</option>
-                                <option value="category3">Hotels & restaurants</option>
+                                <option value="1">Objets</option>
+                                <option value="2">Appartements</option>
+                                <option value="3">Hotels & restaurants</option>
                                 </select>
                                 <hr class="separation-bar">
                                 <input type="submit" value="Valider" id="input-submit" class="submit-btn">
                                 </div>
                                 </form>`;
                 modalAddWorks.style.display ="flex";
+                // close second modal
                 const closeModalAddBtn = document.getElementById("close-modal2");
                 closeModalAddBtn.addEventListener("click", () => {
                     backdrop.remove();
                 });
+                // return previoius modal
                 const returnPreviousModal = document.getElementById("return");
                 returnPreviousModal.addEventListener("click", () => {
                     modalAddWorks.remove();
                     modal.style.display = "flex";
                 }); 
+                //add new works
+                const formAdd = document.getElementById("form-add");
+                formAdd.addEventListener("submit", async (event) => {
+                    event.preventDefault();
+                    await addNewWork(formAdd);
+                });
             });
         });
     };
 };
+// function to delete works
 async function deleteWorks (event,worksId) {
     try {
         console.log("Suppression de l'élément déclenchée");
@@ -190,3 +199,30 @@ async function deleteWorks (event,worksId) {
     }
     
 }
+// funnction add new Works
+async function addNewWork () {
+    const inputAdd = document.getElementById("input-add");
+    const inputTitle = document.getElementById("input-title");
+    const selectCategory = document.getElementById("select-category");
+        try {
+            const formData = new FormData();
+            formData.append("image", inputAdd.files[0]);
+            formData.append("title", inputTitle.value);
+            formData.append("category", selectCategory.value);
+            const response = await fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.ok) {
+                console.log("travail ajouté");
+                const newWork = await response.json();
+                createWorksContainer(newWork);
+            }
+        } catch (error) {
+            console.log("erreur lors de l'envoie")
+        }
+};
