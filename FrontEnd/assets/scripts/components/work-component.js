@@ -27,24 +27,7 @@ export async function createWorksContainer(works){
     };
 };
 
-export async function editorModeDisplay () {
-    // change loginto logout
-    const loginBtn = document.querySelector(".btn-login")
-    loginBtn.innerText = "Logout";
-    //remove filter
-    document.querySelector(".btnFilter").remove();
-    //add black hearder
-    const header = document.querySelector("header");
-    header.style.marginTop = "100px";
-    const blackHeader = document.createElement("div");
-    blackHeader.classList.add("black-header");
-    header.insertBefore (blackHeader, header.firstChild);
-    const editBtn = document.createElement("div");
-    editBtn.classList.add("edit-btn");
-    editBtn.innerHTML = `<i class="fa-regular fa-pen-to-square"></i><p>Mode édition</p>`;
-    blackHeader.appendChild(editBtn);
-    // edit btn to open modal
-};
+
 
 export const bindCreateWorkModal = () => {
     const modalButton = document.getElementById ("openModal");
@@ -126,7 +109,7 @@ export const bindCreateWorkModal = () => {
                                 <form action="/upload" method="post" id="form-add">
                                 <h2 class="title-modal">Ajout photo</h2>
                                 <label for="input-add" class="label-add">
-                                <img src="" alt"image upload" class="img-upload">
+                                <img src="" alt"image upload" class="img-upload" id="img-preview">
                                 <span class="icon-image"><i class="fa-regular fa-image"></i></span>
                                 <label for "input-add" class="label-input-add">+ Ajouter photo</label>
                                 <input type="file" name="add-image" id="input-add" />
@@ -163,6 +146,19 @@ export const bindCreateWorkModal = () => {
                 formAdd.addEventListener("submit", async (event) => {
                     event.preventDefault();
                     await addNewWork(formAdd);
+                });
+                // Prévisualiser l'image sélectionnée
+                const inputAdd = document.getElementById("input-add");
+                const imgPreview = document.getElementById("img-preview");
+                inputAdd.addEventListener("change", (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                        imgPreview.src = e.target.result;
+                        };
+                    reader.readAsDataURL(file);
+                    }
                 });
             });
         });
@@ -209,6 +205,7 @@ async function addNewWork () {
             formData.append("image", inputAdd.files[0]);
             formData.append("title", inputTitle.value);
             formData.append("category", selectCategory.value);
+            const token = localStorage.getItem("token"); 
             const response = await fetch("http://localhost:5678/api/works", {
                 method: "POST",
                 body: formData,

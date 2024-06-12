@@ -10,3 +10,9 @@ export const login = async (chargeUtile) => {
         .catch(error => reject(error))
     })
 }
+export const loggedIn = () => {
+    return (localStorage.getItem("token")!== null)
+}
+export const logOut = () => {
+    localStorage.removeItem("token");
+}
