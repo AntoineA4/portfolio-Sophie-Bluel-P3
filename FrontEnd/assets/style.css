@@ -455,4 +455,45 @@ margin: auto;
 	cursor: pointer;
 } 
 
+/******* Edition mode ******/
+.black-header {
+	background-color: #000;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
+.edit-btn  {
+	display: flex;
+	justify-content: center;
+	color: white;
+	font-size: 16px;
+	width: 100%;
+}
+
+.edit-btn .fa-pen-to-square {
+	margin-right: 1%;
+}
+
+.top-portfolio {
+	display: flex;
+	justify-content: center;
+}
+
+#openModal {
+    display: inline; 
+    border: none; 
+    background: none; 
+    color: inherit; 
+    font: inherit; 
+    cursor: pointer; 
+	padding-top: 1%;
+    padding-left: 0;
+}
+#openModal .fa-pen-to-square {
+    margin-right: 7%; 
+}
+.top-portfolio h2 {
+	margin-right: 2%;
+}

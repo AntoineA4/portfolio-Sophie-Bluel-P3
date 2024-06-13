@@ -2,7 +2,10 @@ import { loggedIn, logOut } from "../services/auth-service.js"
 export const createHeader = () => {
     if (loggedIn()) {
         //remove filter
-        document.querySelector(".btnFilter").remove();
+        const btnFilter = document.querySelector(".btnFilter");
+            btnFilter.style.display ="none";
+            const listeFilter = document.querySelector(".listeFilter");
+            listeFilter.style.display ="none";
         //add black hearder
         const blackHeader = document.createElement("div");
         blackHeader.classList.add("black-header");
@@ -12,7 +15,9 @@ export const createHeader = () => {
         editBtn.innerHTML = `<i class="fa-regular fa-pen-to-square"></i><p>Mode édition</p>`;
         blackHeader.appendChild(editBtn);
         // edit btn to open modal
-        // change loginto logout
+        const openModalBtn = document.getElementById("openModal");
+        openModalBtn.style.display = "flex";
+        // change loginto logout + go back to home page when click logout
         const loginBtn = document.querySelector(".btn-login")
         loginBtn.innerText = "Logout"; 
         loginBtn.addEventListener("click",function handler(event) {
@@ -23,6 +28,12 @@ export const createHeader = () => {
             const loginBtn = document.querySelector(".btn-login");
             loginBtn.innerText ="Login";
             loginBtn.removeEventListener("click", handler);
+            const openModalBtn = document.getElementById("openModal");
+            openModalBtn.remove();
+            const btnFilter = document.querySelector(".btnFilter");
+            btnFilter.style.display ="flex";
+            const listeFilter = document.querySelector(".listeFilter");
+            listeFilter.style.display ="flex";
         });
     };
 };
