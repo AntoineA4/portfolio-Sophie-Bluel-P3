@@ -128,6 +128,31 @@ export const bindCreateWorkModal = () => {
                                 </div>
                                 </form>`;
                 modalAddWorks.style.display ="flex";
+
+                // Function to change submit btn color when form is fully completed 
+                const checkFormValidity = () => {
+                    const file = inputAdd.files[0];
+                    const title = inputTitle.value.trim();
+                    const category = selectCategory.value;
+                    if (file && title && category) {
+                        submitBtn.style.backgroundColor = "#1D6154"; 
+                        submitBtn.style.borderColor = "#1D6154";
+                    } else {
+                        submitBtn.style.backgroundColor = ""; 
+                        submitBtn.style.borderColor = "";
+                    }
+                };
+                // Take back all form elements
+                const inputAdd = document.getElementById("input-add");
+                const inputTitle = document.getElementById("input-title");
+                const selectCategory = document.getElementById("select-category");
+                const submitBtn = document.getElementById("input-submit");
+                const imgPreview = document.getElementById("img-preview");
+
+                // Add evenlistener to it
+                inputAdd.addEventListener("change", checkFormValidity);
+                inputTitle.addEventListener("input", checkFormValidity);
+                selectCategory.addEventListener("change", checkFormValidity);
                 // close second modal
                 const closeModalAddBtn = document.getElementById("close-modal2");
                 closeModalAddBtn.addEventListener("click", () => {
@@ -145,9 +170,7 @@ export const bindCreateWorkModal = () => {
                     event.preventDefault();
                     await addNewWork(formAdd);
                 });
-                // Prévisualiser l'image sélectionnée
-                const inputAdd = document.getElementById("input-add");
-                const imgPreview = document.getElementById("img-preview");
+                // selected image preview
                 inputAdd.addEventListener("change", (event) => {
                     const file = event.target.files[0];
                     if (file) {
