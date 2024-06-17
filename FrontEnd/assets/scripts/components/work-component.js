@@ -27,8 +27,6 @@ export async function createWorksContainer(works){
     };
 };
 
-
-
 export const bindCreateWorkModal = () => {
     const modalButton = document.getElementById ("openModal");
     if (modalButton) {
@@ -109,9 +107,9 @@ export const bindCreateWorkModal = () => {
                                 <form action="/upload" method="post" id="form-add">
                                 <h2 class="title-modal">Ajout photo</h2>
                                 <label for="input-add" class="label-add">
-                                <img src="" alt"image upload" class="img-upload" id="img-preview">
+                                <img src="" alt="image upload" class="img-upload" id="img-preview">
                                 <span class="icon-image"><i class="fa-regular fa-image"></i></span>
-                                <label for "input-add" class="label-input-add">+ Ajouter photo</label>
+                                <label for = "input-add" class="label-input-add">+ Ajouter photo</label>
                                 <input type="file" name="add-image" id="input-add" />
                                 <span class="info-add">jpeg, png : 4mo max</span>
                                 </label>
@@ -155,7 +153,15 @@ export const bindCreateWorkModal = () => {
                     if (file) {
                         const reader = new FileReader();
                         reader.onload = (e) => {
-                        imgPreview.src = e.target.result;
+                            imgPreview.src = e.target.result;
+                            const iconImage = document.querySelector(".icon-image");
+                            const labelInputAdd = document.querySelector(".label-input-add");
+                            const infoAdd = document.querySelector(".info-add");
+                            iconImage.style.display ="none";
+                            inputAdd.style.display ="none";
+                            labelInputAdd.style.display ="none";
+                            infoAdd.style.display ="none";
+                            imgPreview.style.display= "flex";
                         };
                     reader.readAsDataURL(file);
                     }
