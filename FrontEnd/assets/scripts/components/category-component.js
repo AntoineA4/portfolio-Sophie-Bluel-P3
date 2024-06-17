@@ -34,6 +34,10 @@ export const createCategoriesContainer= async () => {
     if (buttons) {
         for (const button of buttons) {
             button.addEventListener("click", async () => {
+                // Retirer la classe active de tous les boutons
+                buttons.forEach(btn => btn.classList.remove("active"));
+                // Ajouter la classe active au bouton sélectionné
+                button.classList.add("active");
                 let works = await findAllWorks (); 
                 if (button.textContent !== "Tous") {
                     works = works.filter (work => work.category.name === button.textContent);
