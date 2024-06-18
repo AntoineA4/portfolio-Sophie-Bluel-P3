@@ -67,10 +67,10 @@ export const bindCreateWorkModal = () => {
                 figure.appendChild(trashPic);
                 //delete works
                 trashPic.addEventListener("click", async(event) => {
-                    console.log("Suppression de l'élément déclenchée");
-                    event.stopPropagation();
                     event.preventDefault();
-                    deleteWorks(event, worksId);
+                    event.stopPropagation();
+                    console.log("Suppression de l'élément déclenchée");
+                    await deleteWorks(event, worksId);
                 })
             });
             // hr line
@@ -197,6 +197,8 @@ export const bindCreateWorkModal = () => {
 async function deleteWorks (event,worksId) {
     try {
         console.log("Suppression de l'élément déclenchée");
+        event.preventDefault();
+        event.stopPropagation(); 
         const token = localStorage.getItem("token");
         const fetchDelete = await fetch(`http://localhost:5678/api/works/${worksId}`,
             {
@@ -211,7 +213,7 @@ async function deleteWorks (event,worksId) {
             const figures = document.querySelectorAll(`.figure-${worksId}`)
             figures.forEach((figure) => {
                 console.log(figure)
-                figure.remove()
+                figure.remove();
                 }
             );
             event.preventDefault();
@@ -223,7 +225,7 @@ async function deleteWorks (event,worksId) {
         console.error('Erreur lors de la suppression de l\'image :', error);
     }
     
-}
+};
 // funnction add new Works
 async function addNewWork () {
     const inputAdd = document.getElementById("input-add");
