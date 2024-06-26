@@ -9,9 +9,7 @@ export const createCategoriesContainer= async () => {
     categoriesContainer.classList.add("listeFilter");
     const worksSection = document.getElementById("portfolio");
     if (!worksSection) return;
-    console.log(categoriesContainer, worksSection);
     const categories = await findAllCategories();
-    console.log(categories);
     worksSection.appendChild(categoriesContainer);
     //ajout du li//
     categories.forEach(category => {

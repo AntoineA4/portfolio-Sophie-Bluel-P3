@@ -10,9 +10,7 @@ export const bindLoginForm = async () => {
                     password: event.target.querySelector("[name=password]").value,
                 };
                 const chargeUtile = JSON.stringify(loginInformation);
-                console.log("Login information:", loginInformation);
                 const response = await login(chargeUtile); 
-                console.log("API response:", response);
                 if (response.token) {
                     localStorage.setItem("token", response.token);
                     window.location.href = "index.html";
@@ -21,7 +19,7 @@ export const bindLoginForm = async () => {
                 }  
             } catch (error) {
                 console.error("Erreur lors de la connexion:", error);
-                displayErrorMessage("Erreur");
+                displayErrorMessage ("*email ou mot de passe incorrect");
             }
         });
     };

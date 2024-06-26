@@ -71,7 +71,6 @@ export const bindCreateWorkModal = () => {
                 //delete works
                 trashPic.addEventListener("click", async(event) => {
                     event.preventDefault();
-                    console.log("Suppression de l'élément déclenchée");
                     await deleteWorks(event, worksId);
                     figure.remove();// Remove the figure from the modal
                 })
@@ -88,14 +87,12 @@ export const bindCreateWorkModal = () => {
             closeModalBtn.addEventListener("click", (event) => {
                 event.preventDefault();
                 backdrop.remove();
-                console.log("La modal est en train de se fermer.1");
             });
             // close modal when clicking outside of it
             backdrop.addEventListener("click", (event) => {
                 if (event.target === backdrop) {
                     event.preventDefault();
                     backdrop.remove();
-                    console.log("La modal est en train de se fermer.2");
                 }
             });
             //open the second modal (add works)
@@ -248,7 +245,6 @@ export const bindCreateWorkModal = () => {
 // function to delete works
 async function deleteWorks (event,worksId) {
     try {
-        console.log("Suppression de l'élément déclenchée");
         event.preventDefault();
         const token = localStorage.getItem("token");
         const fetchDelete = await fetch(`http://localhost:5678/api/works/${worksId}`,
@@ -263,13 +259,6 @@ async function deleteWorks (event,worksId) {
         if (fetchDelete.ok) {
             currentWorks = currentWorks.filter(work => work.id !== worksId);
             createWorksContainer(currentWorks);
-            //const figures = document.querySelectorAll(`.figure-${worksId}`)
-            //figures.forEach((figure) => {
-                //console.log(figure)
-                //figure.remove();
-                //}
-            //);
-            console.log("work supprimé");
         } else {
             console.error("une erreur s'est produite");
         }
@@ -283,6 +272,7 @@ async function addNewWork () {
     const inputAdd = document.getElementById("input-add");
     const inputTitle = document.getElementById("input-title");
     const selectCategory = document.getElementById("select-category");
+    if (inputAdd.files && inputTitle.value && selectCategory.value) {
         try {
             const formData = new FormData();
             formData.append("image", inputAdd.files[0]);
@@ -298,11 +288,11 @@ async function addNewWork () {
                 },
             });
             if (response.ok) {
-                console.log("travail ajouté");
                 const newWork = await response.json();
                 return newWork; // Return the new work object
             }
         } catch (error) {
             console.log("erreur lors de l'envoie")
         }
+    }
 };
