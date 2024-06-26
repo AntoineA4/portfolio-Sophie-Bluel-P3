@@ -1,4 +1,5 @@
 import { findAllWorks } from "../services/work-service.js";
+let currentWorks = [];
 
 export async function createWorksContainer(works){
     try {
@@ -10,16 +11,16 @@ export async function createWorksContainer(works){
         gallery.innerHTML = '';
 
         works.forEach(({title, imageUrl}) => {
-        const figureElement = document.createElement("figure");
-        const imageElement = document.createElement("img");
-        imageElement.src = imageUrl;
-        imageElement.alt = title;
-        const titleElement = document.createElement("h3");
-        titleElement.textContent = title;
-        figureElement.appendChild(imageElement);
-        figureElement.appendChild(titleElement);
-        gallery.appendChild(figureElement);
-        })
+            const figureElement = document.createElement("figure");
+            const imageElement = document.createElement("img");
+            imageElement.src = imageUrl;
+            imageElement.alt = title;
+            const titleElement = document.createElement("h3");
+            titleElement.textContent = title;
+            figureElement.appendChild(imageElement);
+            figureElement.appendChild(titleElement);
+            gallery.appendChild(figureElement);
+        });
     }
     catch (error) {
         console.log("Error fetching or displaying works:", error);
@@ -30,7 +31,8 @@ export async function createWorksContainer(works){
 export const bindCreateWorkModal = () => {
     const modalButton = document.getElementById ("openModal");
     if (modalButton) {
-        modalButton.addEventListener ("click", async () => {
+        modalButton.addEventListener ("click", async (event) => { 
+            event.preventDefault();
             // create modal backdrop
             const backdrop = document.createElement("div");
             backdrop.classList.add("custom-modal-backdrop");
@@ -53,6 +55,7 @@ export const bindCreateWorkModal = () => {
             galleryWorks.classList.add("gallery-modal");
             modal.appendChild(galleryWorks);
             const works = await findAllWorks (); 
+            currentWorks = works; //Update global work array
             works.forEach((work)=> {
                 const worksId = work.id;
                 const figure = document.createElement("figure");
@@ -68,9 +71,9 @@ export const bindCreateWorkModal = () => {
                 //delete works
                 trashPic.addEventListener("click", async(event) => {
                     event.preventDefault();
-                    event.stopPropagation();
                     console.log("Suppression de l'élément déclenchée");
                     await deleteWorks(event, worksId);
+                    figure.remove();// Remove the figure from the modal
                 })
             });
             // hr line
@@ -82,19 +85,22 @@ export const bindCreateWorkModal = () => {
             btnAjoutPhoto.classList.add ("modal-btn");
             modal.appendChild(btnAjoutPhoto);
             // close modal
-            closeModalBtn.addEventListener("click", () => {
+            closeModalBtn.addEventListener("click", (event) => {
+                event.preventDefault();
                 backdrop.remove();
                 console.log("La modal est en train de se fermer.1");
             });
             // close modal when clicking outside of it
             backdrop.addEventListener("click", (event) => {
                 if (event.target === backdrop) {
+                    event.preventDefault();
                     backdrop.remove();
                     console.log("La modal est en train de se fermer.2");
                 }
             });
             //open the second modal (add works)
-            btnAjoutPhoto.addEventListener("click", () => {
+            btnAjoutPhoto.addEventListener("click", (event) => {
+                event.preventDefault();
                 modal.style.display ="none"; 
                 const modalAddWorks = document.createElement("div");
                 modalAddWorks.classList.add ("modal2");
@@ -155,12 +161,14 @@ export const bindCreateWorkModal = () => {
                 selectCategory.addEventListener("change", checkFormValidity);
                 // close second modal
                 const closeModalAddBtn = document.getElementById("close-modal2");
-                closeModalAddBtn.addEventListener("click", () => {
+                closeModalAddBtn.addEventListener("click", (event) => {
+                    event.preventDefault();
                     backdrop.remove();
                 });
                 // return previoius modal
                 const returnPreviousModal = document.getElementById("return");
-                returnPreviousModal.addEventListener("click", () => {
+                returnPreviousModal.addEventListener("click", (event) => {
+                    event.preventDefault();
                     modalAddWorks.remove();
                     modal.style.display = "flex";
                 }); 
@@ -168,10 +176,54 @@ export const bindCreateWorkModal = () => {
                 const formAdd = document.getElementById("form-add");
                 formAdd.addEventListener("submit", async (event) => {
                     event.preventDefault();
-                    await addNewWork(formAdd);
+                    const newWork = await addNewWork(formAdd);
+                    // Append the new work to the existing gallery
+                    if (newWork) {
+                        currentWorks.push(newWork); // Add the new work to the global array
+                        createWorksContainer(currentWorks); // Update the gallery with the new list of works
+                        const figure = document.createElement("figure");
+                        figure.classList.add("figure");
+                        figure.classList.add(`figure-${newWork.id}`);
+                        const img = document.createElement("img");
+                        const trashPic = document.createElement("i");
+                        trashPic.classList.add("fa-solid", "fa-trash-can");
+                        img.src = newWork.imageUrl;
+                        const galleryWorks = document.querySelector(".gallery-modal");
+                        galleryWorks.appendChild(figure);
+                        figure.appendChild(img);
+                        figure.appendChild(trashPic);
+                        // delete new works
+                        trashPic.addEventListener("click", async (event) => {
+                            event.preventDefault();
+                            await deleteWorks(event, newWork.id);
+                            figure.remove(); // Remove the figure from the modal
+                        });
+                        // Reset the form
+                        formAdd.reset();
+                        imgPreview.src = '';
+                        imgPreview.style.display = "none"; // Hide image preview after reset
+
+                        // Reset styles and visibility for elements
+                        const iconImage = document.querySelector(".icon-image");
+                        const labelInputAdd = document.querySelector(".label-input-add");
+                        const infoAdd = document.querySelector(".info-add");
+                        iconImage.style.display = "flex";
+                        labelInputAdd.style.display = "flex";
+                        infoAdd.style.display = "flex";
+                        inputAdd.style.display = "none";
+                        submitBtn.style.backgroundColor = ""; 
+                        submitBtn.style.borderColor = "";
+
+                        // Reset the file input label
+                        const fileInputLabel = document.querySelector(".file-input-label"); // Adjust the selector as needed
+                        if (fileInputLabel) {
+                            fileInputLabel.textContent = "aucun fichier choisi"; // Reset the text to default
+                        }
+                    }
                 });
                 // selected image preview
                 inputAdd.addEventListener("change", (event) => {
+                    event.preventDefault();
                     const file = event.target.files[0];
                     if (file) {
                         const reader = new FileReader();
@@ -198,7 +250,6 @@ async function deleteWorks (event,worksId) {
     try {
         console.log("Suppression de l'élément déclenchée");
         event.preventDefault();
-        event.stopPropagation(); 
         const token = localStorage.getItem("token");
         const fetchDelete = await fetch(`http://localhost:5678/api/works/${worksId}`,
             {
@@ -210,13 +261,14 @@ async function deleteWorks (event,worksId) {
             }
         );
         if (fetchDelete.ok) {
-            const figures = document.querySelectorAll(`.figure-${worksId}`)
-            figures.forEach((figure) => {
-                console.log(figure)
-                figure.remove();
-                }
-            );
-            event.preventDefault();
+            currentWorks = currentWorks.filter(work => work.id !== worksId);
+            createWorksContainer(currentWorks);
+            //const figures = document.querySelectorAll(`.figure-${worksId}`)
+            //figures.forEach((figure) => {
+                //console.log(figure)
+                //figure.remove();
+                //}
+            //);
             console.log("work supprimé");
         } else {
             console.error("une erreur s'est produite");
@@ -248,7 +300,7 @@ async function addNewWork () {
             if (response.ok) {
                 console.log("travail ajouté");
                 const newWork = await response.json();
-                createWorksContainer(newWork);
+                return newWork; // Return the new work object
             }
         } catch (error) {
             console.log("erreur lors de l'envoie")
